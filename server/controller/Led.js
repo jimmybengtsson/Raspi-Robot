@@ -56,7 +56,7 @@ exports.ledBlink = (req, res) => {
 
 };
 
-exports.ledBlinkTest = (req, res) => {
+exports.ledBlinkTest = () => {
 
     console.log('Led blink test');
     board.on('ready', () => {

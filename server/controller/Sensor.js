@@ -31,5 +31,5 @@ exports.readInterval = () => {
 
             return value;
         });
-    }, 10);
+    }, 300);
 };
