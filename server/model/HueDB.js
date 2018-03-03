@@ -41,25 +41,73 @@ let HueSchema = new Schema({
     timestamp: {
         type: Number,
     },
-
-    type: {
-        type: String,
-        required: true,
+    Kitchen: {
+        temperature: {
+            type: Number,
+        },
+        lastMovement: {
+            type: Date,
+        },
+        lightlevel: {
+            type: Number,
+        },
+        dark: {
+            type: Boolean,
+        },
+        daylight: {
+            type: Boolean
+        },
     },
-    value: {
-        type: Number,
+    Hallway: {
+        temperature: {
+            type: Number,
+        },
+        lastMovement: {
+            type: Date,
+        },
+        lightlevel: {
+            type: Number,
+        },
+        dark: {
+            type: Boolean,
+        },
+        daylight: {
+            type: Boolean
+        },
     },
-    unit:  {
-        type: String,
+    Basement: {
+        temperature: {
+            type: Number,
+        },
+        lastMovement: {
+            type: Date,
+        },
+        lightlevel: {
+            type: Number,
+        },
+        dark: {
+            type: Boolean,
+        },
+        daylight: {
+            type: Boolean
+        },
     },
-    unit_display:  {
-        type: String,
-    },
-    sensor_name:  {
-        type: String,
-    },
-    sensor_type:  {
-        type: String,
+    Laundry: {
+        temperature: {
+            type: Number,
+        },
+        lastMovement: {
+            type: Date,
+        },
+        lightlevel: {
+            type: Number,
+        },
+        dark: {
+            type: Boolean,
+        },
+        daylight: {
+            type: Boolean
+        },
     },
 });
 

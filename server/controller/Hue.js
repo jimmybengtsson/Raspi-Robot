@@ -1,7 +1,7 @@
 'use strict';
 
 let mongoose = require('mongoose');
-let SensorModel = mongoose.model('Hue');
+let HueModel = mongoose.model('Hue');
 let huejay = require('huejay');
 let Hue = require('philips-hue');
 let hue = new Hue();
@@ -25,7 +25,9 @@ exports.readInterval = () => {
             } else {
                 clientTemp.host = data.HueHost;
                 clientTemp.username = data.HueUser;
-                fetchValues();
+                setInterval(() => {
+                    fetchValues();
+                }, 300000);
             }
         })
         .catch(err => {
@@ -65,14 +67,70 @@ let hueAutho = () => {
 
 let fetchValues = () => {
 
-    let client = new huejay.Client(clientTemp);
-    console.log(clientTemp);
+    let newHueModel = new HueModel();
 
+    let client = new huejay.Client(clientTemp);
     client.sensors.getAll()
         .then(sensors => {
             for (let sensor of sensors) {
-                console.log(sensor);
+                if (sensor.name === 'Hallen') {
+                    newHueModel.Hallway.lastMovement = sensor.state.attributes.attributes.lastupdated;
+                }
+                if (sensor.name === 'Hue temperature sensor 1') {
+                    newHueModel.Hallway.temperature = sensor.state.temperature;
+                }
+                if (sensor.name === 'Hue ambient light sensor 1') {
+                    newHueModel.Hallway.lightlevel = sensor.state.lightlevel;
+                    newHueModel.Hallway.dark = sensor.state.dark;
+                    newHueModel.Hallway.daylight = sensor.state.daylight;
+                }
+                if (sensor.name === 'Köket') {
+                    newHueModel.Kitchen.lastMovement = sensor.state.attributes.attributes.lastupdated;
+                }
+                if (sensor.name === 'Hue temperature sensor 2') {
+                    newHueModel.Kitchen.temperature = sensor.state.temperature;
+                }
+                if (sensor.name === 'Hue ambient light sensor 2') {
+                    newHueModel.Kitchen.lightlevel = sensor.state.lightlevel;
+                    newHueModel.Kitchen.dark = sensor.state.dark;
+                    newHueModel.Kitchen.daylight = sensor.state.daylight;
+                }
+                if (sensor.name === 'Källaren') {
+                    newHueModel.Basement.lastMovement = sensor.state.attributes.attributes.lastupdated;
+                }
+                if (sensor.name === 'Hue temperature sensor 3') {
+                    newHueModel.Basement.temperature = sensor.state.temperature;
+                }
+                if (sensor.name === 'Hue ambient light sensor 3') {
+                    newHueModel.Basement.lightlevel = sensor.state.lightlevel;
+                    newHueModel.Basement.dark = sensor.state.dark;
+                    newHueModel.Basement.daylight = sensor.state.daylight;
+                }
+                if (sensor.name === 'Tvättstugan') {
+                    newHueModel.Laundry.lastMovement = sensor.state.attributes.attributes.lastupdated;
+                }
+                if (sensor.name === 'Hue temperature sensor 4') {
+                    newHueModel.Laundry.temperature = sensor.state.temperature;
+                }
+                if (sensor.name === 'Hue ambient light sensor 4') {
+                    newHueModel.Laundry.lightlevel = sensor.state.lightlevel;
+                    newHueModel.Laundry.dark = sensor.state.dark;
+                    newHueModel.Laundry.daylight = sensor.state.daylight;
+                }
+
             }
+        })
+        .then(() => {
+            newHueModel.save((err, value) => {
+
+                if (err) {
+                    throw new Error(err);
+                }
+
+                console.log('Saved to Hue db: ' + value);
+
+                return value;
+            });
         })
         .catch(error => {
             console.log(error.stack);
