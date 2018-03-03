@@ -1,5 +1,5 @@
 {
-  "name": "raspi-sensors",
+  "name": "raspberry-sensors",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,9 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "johnny-five": "^0.14.1",
-    "raspi-io": "^8.1.0"
+    "mongoose": "^5.0.7",
+    "raspi-io": "^8.1.0",
+    "raspi-sensors": "^0.2.11"
   },
   "devDependencies": {
     "jscs": "^3.0.7",
