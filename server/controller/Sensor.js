@@ -13,9 +13,13 @@ let DHT21 = new RaspiSensors.Sensor({
 exports.readInterval = () => {
 
     return DHT21.fetchInterval((err, data) => {
-        if(err) {
+        if (err) {
             console.error("Error when reading DHT21-values!");
             console.error(err.message);
+            return;
+        }
+        if (data.value === 0) {
+            console.log('DHT-value skipped because of zero');
             return;
         }
 

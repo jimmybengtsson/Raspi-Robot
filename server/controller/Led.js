@@ -44,31 +44,31 @@ exports.ledOff = (req, res) => {
 
 exports.ledBlink = (req, res) => {
 
-        console.log('Led blink');
+    console.log('Led blink');
+
+    blink();
+
+    return res.json({message: 'Led blinking'});
+
+};
+
+exports.initialize = () => {
+
+    console.log('Led blink initialize');
+    board.on('ready', () => {
+
+        leds = new five.Leds(['GPIO20', 'GPIO21']);
+        blink();
+    });
+
+};
+
+let blink = () => {
+
         leds.strobe(500);
 
         setTimeout(() => {
             console.log('Led blink stop');
             leds.stop().off();
         }, 5000);
-
-        return res.json({message: 'Led blinking'});
-
 };
-
-exports.ledBlinkTest = () => {
-
-    console.log('Led blink test');
-    board.on('ready', () => {
-
-        let led = new five.Leds(['GPIO20', 'GPIO21']);
-        led.strobe(500);
-
-        setTimeout(() => {
-            console.log('Led blink stop');
-            led.stop().off();
-        }, 5000);
-    });
-
-};
-

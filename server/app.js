@@ -14,13 +14,15 @@ startHueDB();
 let led = require('./controller/Led');
 let sensor = require('./controller/Sensor');
 let hue = require('./controller/Hue');
+let cameraServo = require('./controller/CameraServo');
 
 let app = express();
 let port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 
-led.ledBlinkTest();
+led.initialize();
+cameraServo.initialize();
 sensor.readInterval();
 hue.readInterval();
 
