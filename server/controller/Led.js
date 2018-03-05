@@ -9,11 +9,6 @@ let board = new five.Board({
     io: new raspi()
 });
 
-board.on('connect', () => {
-    console.log('Board is ready');
-    leds = new five.Leds(['GPIO20', 'GPIO21']);
-});
-
 // Handling all the led actions
 
 exports.ledOn = (req, res) => {

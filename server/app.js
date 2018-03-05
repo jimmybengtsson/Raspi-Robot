@@ -15,6 +15,7 @@ let led = require('./controller/Led');
 let sensor = require('./controller/Sensor');
 let hue = require('./controller/Hue');
 let cameraServo = require('./controller/CameraServo');
+let motor = require('./controller/Motor');
 
 let app = express();
 let port = process.env.PORT || 8000;
@@ -22,9 +23,10 @@ let port = process.env.PORT || 8000;
 app.use(bodyParser.json());
 
 led.initialize();
-cameraServo.initialize();
+//cameraServo.initialize();
 sensor.readInterval();
 hue.readInterval();
+motor.initialize();
 
 let actionRoutes = require('./routes/ActionRoutes');
 
