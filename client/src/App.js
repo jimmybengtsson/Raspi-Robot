@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './style/App.css';
 import { slide as Menu } from 'react-burger-menu';
+
+import Robot from './component/robot/Robot';
+import RpiSensors from './component/sensors/RpiSensors';
+import HueSensors from './component/sensors/HueSensors';
 
 
 class App extends Component {
@@ -30,30 +34,41 @@ class App extends Component {
     }
 
   render() {
+
+        console.log('Render App');
     return (
         <Router>
           <div className="App">
               <Menu className={ "menu" }
                     isOpen={this.state.menuOpen}
                     onStateChange={(state) => this.handleStateChange(state)}>
-                  <button onClick={() => {
-                      this.setState({
-                          page: 'rates',
-                      });
-                      this.closeMenu();
-                  }}>Rates</button>
-                  <button onClick={() => {
-                      this.setState({
-                          page: 'wallet',
-                      });
-                      this.closeMenu();
-                  }}>Wallets</button>
+                  <Link to={'/robot'}
+                        onClick={() => {
+                            this.closeMenu();
+                        }}>
+                      Robot
+                  </Link>
+                  <Link to={'/sensors/rpi'}
+                        onClick={() => {
+                            this.closeMenu();
+                        }}>
+                      RPi Sensors
+                  </Link>
+                  <Link to={'/sensors/hue'}
+                        onClick={() => {
+                            this.closeMenu();
+                        }}>
+                      Hue Sensors
+                  </Link>
               </Menu>
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <h1 className="App-title">RPi Robot</h1>
             </header>
 
+              <Route path="/robot" component={Robot}/>
+              <Route path="/sensors/rpi" component={RpiSensors}/>
+              <Route path="/sensors/hue" component={HueSensors}/>
           </div>
         </Router>
     );
