@@ -2,6 +2,7 @@
 
 let led = require('../controller/Led');
 let cameraServo = require('../controller/CameraServo');
+let motor = require('../controller/Motor');
 
 // Handling all routes for actions
 
@@ -24,6 +25,21 @@ module.exports = (app) => {
 
     app.route('/actions/camera/center')
         .get(cameraServo.center);
+
+    app.route('/actions/motor/forward')
+        .get(motor.forward);
+
+    app.route('/actions/motor/reverse')
+        .get(motor.reverse);
+
+    app.route('/actions/motor/stop')
+        .get(motor.stop);
+
+    app.route('/actions/motor/left')
+        .get(motor.left);
+
+    app.route('/actions/motor/right')
+        .get(motor.right);
 
 
 };

@@ -5,10 +5,6 @@ let five = require('johnny-five');
 
 let leds;
 
-let board = new five.Board({
-    io: new raspi()
-});
-
 // Handling all the led actions
 
 exports.ledOn = (req, res) => {
@@ -47,13 +43,22 @@ exports.ledBlink = (req, res) => {
 
 };
 
-exports.initialize = () => {
+exports.initialize = (board) => {
 
-    console.log('Led blink initialize');
     board.on('ready', () => {
+
+        console.log('Led blink initialize');
 
         leds = new five.Leds(['GPIO20', 'GPIO21']);
         blink();
+
+        setTimeout(() => {
+           leds.on();
+        }, 5500);
+
+        setTimeout(() => {
+            leds.off();
+        }, 15000);
     });
 
 };

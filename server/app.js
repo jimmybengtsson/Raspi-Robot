@@ -11,22 +11,24 @@ let startHueDB = require('./model/HueDB').startHueDB;
 startSensorsDB();
 startHueDB();
 
-let led = require('./controller/Led');
+//let led = require('./controller/Led');
 let sensor = require('./controller/Sensor');
 let hue = require('./controller/Hue');
-let cameraServo = require('./controller/CameraServo');
-let motor = require('./controller/Motor');
+//let cameraServo = require('./controller/CameraServo');
+//let motor = require('./controller/Motor');
+let board = require('./controller/InitBoard');
 
 let app = express();
 let port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 
-led.initialize();
-//cameraServo.initialize();
+//led.initialize();
 sensor.readInterval();
 hue.readInterval();
-motor.initialize();
+//motor.initialize();
+//cameraServo.initialize();
+board.initialize();
 
 let actionRoutes = require('./routes/ActionRoutes');
 

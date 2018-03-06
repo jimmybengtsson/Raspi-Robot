@@ -18,6 +18,7 @@
     "mongoose": "^5.0.7",
     "philips-hue": "^1.2.0",
     "raspi-io": "^8.1.0",
+    "raspi-io-core": "^2.0.2",
     "raspi-sensors": "^0.2.11"
   },
   "devDependencies": {

@@ -5,16 +5,14 @@ let five = require('johnny-five');
 
 let horisontalServo;
 
-let board = new five.Board({
-    io: new raspi()
-});
-
-exports.initialize = () => {
+exports.initialize = (board) => {
 
     board.on('ready', () => {
-        console.log('Board is ready');
+        console.log('Cameraservo is ready');
 
-        horisontalServo = new five.Servo('GPIO19');
+        horisontalServo = new five.Servo({
+            pin: 'GPIO25',
+        });
 
         horisontalServo.sweep();
         setTimeout(() => {
