@@ -12,6 +12,7 @@ exports.initialize = (board) => {
 
         horisontalServo = new five.Servo({
             pin: 'GPIO25',
+            range: [35, 145]
         });
 
         horisontalServo.sweep();

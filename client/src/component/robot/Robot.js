@@ -4,6 +4,7 @@ import '../../style/Robot.css';
 
 import Motor from './MotorComponent';
 import Servo from './ServoComponent';
+import Stream from './Stream';
 
 class Robot extends Component {
     render() {
@@ -11,6 +12,8 @@ class Robot extends Component {
             <Router>
                 <div className="Robot">
                     <p>Robot</p>
+
+                    <Stream/>
                     <Motor/>
                     <Servo/>
 

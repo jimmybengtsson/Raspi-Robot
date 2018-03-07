@@ -10,8 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "express-ws": "^3.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^5.0.0",
     "huejay": "^1.8.0",
     "johnny-five": "^0.14.1",
@@ -19,7 +22,8 @@
     "philips-hue": "^1.2.0",
     "raspi-io": "^8.1.0",
     "raspi-io-core": "^2.0.2",
-    "raspi-sensors": "^0.2.11"
+    "raspi-sensors": "^0.2.11",
+    "raspivid-stream": "^0.2.1"
   },
   "devDependencies": {
     "jscs": "^3.0.7",

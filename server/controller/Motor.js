@@ -18,50 +18,6 @@ exports.initialize = (board) => {
             pins: {pwm: 1, dir: 4},
         });
 
-        setTimeout(() => {
-            motorLeft.forward(255);
-            motorRight.forward(255);
-        }, 5500);
-
-        setTimeout(() => {
-            motorLeft.stop();
-            motorRight.stop();
-            console.log('Motor stop');
-        }, 7500);
-
-        setTimeout(() => {
-            motorLeft.reverse(255);
-            motorRight.reverse(255);
-        }, 7700);
-
-        setTimeout(() => {
-            motorLeft.stop();
-            motorRight.stop();
-            console.log('Motor stop');
-        }, 9700);
-
-        setTimeout(() => {
-            motorLeft.forward(255);
-            motorRight.reverse(255);
-        }, 10000);
-
-        setTimeout(() => {
-            motorLeft.stop();
-            motorRight.stop();
-            console.log('Motor stop');
-        }, 12000);
-
-        setTimeout(() => {
-            motorLeft.reverse(255);
-            motorRight.forward(255);
-        }, 12200);
-
-        setTimeout(() => {
-            motorLeft.stop();
-            motorRight.stop();
-            console.log('Motor stop');
-        }, 14200);
-
     });
 };
 
