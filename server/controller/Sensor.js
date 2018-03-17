@@ -37,3 +37,74 @@ exports.readInterval = () => {
         });
     }, 300);
 };
+
+exports.getLatestValues = (req, res) => {
+
+    SensorModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
+
+        if (err) {
+            return res.status(404).json({ message: 'No data found', });
+        }
+
+        return res.json(value);
+
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
+};
+
+exports.getQueryValues = (req, res) => {
+
+    if (req.query.currency && !req.query.since) {
+        SensorModel.find()
+            .sort('-date')
+            .select(req.query.currency)
+            .limit(1)
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            }).catch((err) => {
+            throw new Error(err.message);
+        });
+
+    } else if (!req.query.currency && req.query.since) {
+
+        SensorModel.find()
+            .gte('date', req.query.since)
+            .sort('date')
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            }).catch((err) => {
+            throw new Error(err.message);
+        });
+    } else if (req.query.currency && req.query.since) {
+
+        SensorModel.find()
+            .gte('date', req.query.since)
+            .sort('date')
+            .select(req.query.currency)
+            .select('date')
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            }).catch((err) => {
+            throw new Error(err.message);
+        });
+    }
+};

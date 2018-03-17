@@ -33,7 +33,29 @@ exports.readInterval = () => {
         .catch(err => {
             console.error(err)
         });
+};
 
+exports.notifications = (req, res) => {
+
+    fs.readJson('./data/HueConfig.json')
+        .then((data) => {
+            if (data.HueHost === null || data.HueUser === null) {
+                hueAutho()
+                    .then(blinkLight);
+            } else {
+                clientTemp.host = data.HueHost;
+                clientTemp.username = data.HueUser;
+                blinkLight();
+            }
+        })
+        .then(() => {
+            return res.json({
+                message: 'Hue light blink'
+            });
+        })
+        .catch(err => {
+            console.error(err)
+        });
 };
 
 let hueAutho = () => {
@@ -131,6 +153,32 @@ let fetchValues = () => {
 
                 return value;
             });
+        })
+        .catch(error => {
+            console.log(error.stack);
+        });
+};
+
+let blinkLight = () => {
+
+    let client = new huejay.Client(clientTemp);
+    client.lights.getAll()
+        .then(lights => {
+            for (let light of lights) {
+
+
+                if (light.name === 'Kontoret') {
+
+                    light.alert = 'lselect';
+
+                    setTimeout(() => {
+                        light.alert = 'none';
+                        client.lights.save(light);
+                    }, 5000)
+
+                    return client.lights.save(light);
+                }
+            }
         })
         .catch(error => {
             console.log(error.stack);

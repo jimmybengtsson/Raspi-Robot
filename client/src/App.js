@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './style/App.css';
 import { slide as Menu } from 'react-burger-menu';
+import Websocket from 'react-websocket';
 
 import Robot from './component/robot/Robot';
 import RpiSensors from './component/sensors/RpiSensors';
 import HueSensors from './component/sensors/HueSensors';
+let serverConfig = require('./config/Config').server;
 
 
 class App extends Component {
@@ -33,6 +35,11 @@ class App extends Component {
         this.setState({menuOpen: !this.state.menuOpen})
     }
 
+    handleData(data) {
+        let result = JSON.parse(data);
+        console.log(result);
+    }
+
   render() {
 
         console.log('Render App');
@@ -42,13 +49,7 @@ class App extends Component {
               <Menu className={ "menu" }
                     isOpen={this.state.menuOpen}
                     onStateChange={(state) => this.handleStateChange(state)}>
-                  <Link to={'/robot'}
-                        onClick={() => {
-                            this.closeMenu();
-                        }}>
-                      Robot
-                  </Link>
-                  <Link to={'/sensors/rpi'}
+                  <Link to={'/'}
                         onClick={() => {
                             this.closeMenu();
                         }}>
@@ -60,6 +61,12 @@ class App extends Component {
                         }}>
                       Hue Sensors
                   </Link>
+                  <Link to={'/robot'}
+                        onClick={() => {
+                            this.closeMenu();
+                        }}>
+                      Robot
+                  </Link>
               </Menu>
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
@@ -67,8 +74,11 @@ class App extends Component {
             </header>
 
               <Route path="/robot" component={Robot}/>
-              <Route path="/sensors/rpi" component={RpiSensors}/>
+              <Route path="/" exact={true} component={RpiSensors}/>
               <Route path="/sensors/hue" component={HueSensors}/>
+
+              <Websocket url={serverConfig.wsUrl}
+                         onMessage={this.handleData.bind(this)}/>
           </div>
         </Router>
     );

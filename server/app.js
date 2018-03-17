@@ -8,9 +8,11 @@ require('dotenv').config();
 
 let startSensorsDB = require('./model/SensorsDB').startSensorsDB;
 let startHueDB = require('./model/HueDB').startHueDB;
+let startUserDB = require('./src/models/UserDB').startUserDB;
 
 startSensorsDB();
 startHueDB();
+startUserDB();
 
 //let led = require('./controller/Led');
 let sensor = require('./controller/Sensor');
@@ -22,6 +24,7 @@ let camera = require('./controller/Camera');
 
 let app = express();
 let port = process.env.PORT || 8000;
+let expressWs = require('express-ws')(app);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -31,8 +34,10 @@ hue.readInterval();
 board.initialize();
 
 let actionRoutes = require('./routes/ActionRoutes');
+let socketRoutes = require('./routes/WebSocketRoutes');
 
 actionRoutes(app);
+socketRoutes(app);
 
 app.use('/streamFiles', express.static('./streamFiles'));
 
