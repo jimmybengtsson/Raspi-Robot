@@ -111,6 +111,6 @@ let HueSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('Hue', HueSchema);
+module.exports = mongoose.model('Hue', HueSchema, 'Hue');
 module.exports.startHueDB = startHueDB;
 

@@ -6,18 +6,24 @@ module.exports = (app) => {
 
     let hue = require('../controller/Hue');
     let sensor = require('../controller/Sensor');
-    let verifyWebToken = require('../controllers/JWTAuthorization');
+    let verifyWebToken = require('../controller/JWTAuthorization');
 
-    app.route('/resource/dht/latest')
-        .get(sensor);
+    app.route('/resource/temperature/latest')
+        .get(sensor.getLatestTemperature);
+
+    app.route('/resource/temperature/latest')
+        .get(sensor.getLatestHumidity);
 
     app.route('/resource/dht/search')
-        .get(sensor);
+        .get(sensor.getQueryValues);
+
+    app.route('/resource/dht/all')
+        .get(sensor.getAllValues);
 
     app.route('/resource/hue/latest')
-        .get(hue);
+        .get(hue.getLatestValues);
 
     app.route('/resource/hue/search')
-        .get(hue);
+        .get(hue.getQueryValues);
 
 };

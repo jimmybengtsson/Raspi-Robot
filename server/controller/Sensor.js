@@ -35,10 +35,10 @@ exports.readInterval = () => {
 
             return value;
         });
-    }, 300);
+    }, 60);
 };
 
-exports.getLatestValues = (req, res) => {
+exports.getLatestTemperature = (req, res) => {
 
     SensorModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
 
@@ -46,6 +46,23 @@ exports.getLatestValues = (req, res) => {
             return res.status(404).json({ message: 'No data found', });
         }
 
+        console.log(value);
+        return res.json(value);
+
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
+};
+
+exports.getLatestHumidity = (req, res) => {
+
+    SensorModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
+
+        if (err) {
+            return res.status(404).json({ message: 'No data found', });
+        }
+
+        console.log(value);
         return res.json(value);
 
     }).catch((err) => {
@@ -55,46 +72,11 @@ exports.getLatestValues = (req, res) => {
 
 exports.getQueryValues = (req, res) => {
 
-    if (req.query.currency && !req.query.since) {
-        SensorModel.find()
-            .sort('-date')
-            .select(req.query.currency)
-            .limit(1)
-            .exec((err, result) => {
-
-                if (err) {
-                    return res.status(404).json({ message: 'No data found', });
-                }
-
-                return res.json(result);
-
-            }).catch((err) => {
-            throw new Error(err.message);
-        });
-
-    } else if (!req.query.currency && req.query.since) {
+    if (req.query.since) {
 
         SensorModel.find()
             .gte('date', req.query.since)
             .sort('date')
-            .exec((err, result) => {
-
-                if (err) {
-                    return res.status(404).json({ message: 'No data found', });
-                }
-
-                return res.json(result);
-
-            }).catch((err) => {
-            throw new Error(err.message);
-        });
-    } else if (req.query.currency && req.query.since) {
-
-        SensorModel.find()
-            .gte('date', req.query.since)
-            .sort('date')
-            .select(req.query.currency)
-            .select('date')
             .exec((err, result) => {
 
                 if (err) {
@@ -107,4 +89,21 @@ exports.getQueryValues = (req, res) => {
             throw new Error(err.message);
         });
     }
+};
+
+exports.getAllValues = (req, res) => {
+
+    SensorModel.find((err, value) => {
+
+        console.log('Get all DHT values');
+        if (err) {
+            return res.status(500).json({ message: 'Server failed. Please try again!' });
+        }
+
+        console.log(value);
+        return res.json(value);
+
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
 };

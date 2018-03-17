@@ -8,7 +8,7 @@ require('dotenv').config();
 
 let startSensorsDB = require('./model/SensorsDB').startSensorsDB;
 let startHueDB = require('./model/HueDB').startHueDB;
-let startUserDB = require('./src/models/UserDB').startUserDB;
+let startUserDB = require('./model/UserDB').startUserDB;
 
 startSensorsDB();
 startHueDB();
@@ -35,9 +35,11 @@ board.initialize();
 
 let actionRoutes = require('./routes/ActionRoutes');
 let socketRoutes = require('./routes/WebSocketRoutes');
+let resourceRoutes = require('./routes/ResourcesRoutes');
 
 actionRoutes(app);
 socketRoutes(app);
+resourceRoutes(app);
 
 app.use('/streamFiles', express.static('./streamFiles'));
 

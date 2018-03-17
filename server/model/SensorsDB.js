@@ -63,6 +63,6 @@ let SensorsSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('Sensors', SensorsSchema);
+module.exports = mongoose.model('Sensors', SensorsSchema, 'Sensors');
 module.exports.startSensorsDB = startSensorsDB;
 

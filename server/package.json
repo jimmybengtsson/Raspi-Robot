@@ -21,7 +21,7 @@
     "huejay": "^1.8.0",
     "johnny-five": "^0.14.1",
     "jsonwebtoken": "^8.2.0",
-    "mongoose": "^5.0.7",
+    "mongoose": "5.0.4",
     "philips-hue": "^1.2.0",
     "raspi-io": "^8.1.0",
     "raspi-io-core": "^2.0.2",

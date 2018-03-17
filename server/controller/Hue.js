@@ -27,7 +27,7 @@ exports.readInterval = () => {
                 clientTemp.username = data.HueUser;
                 setInterval(() => {
                     fetchValues();
-                }, 300000);
+                }, 60000);
             }
         })
         .catch(err => {
@@ -56,6 +56,42 @@ exports.notifications = (req, res) => {
         .catch(err => {
             console.error(err)
         });
+};
+
+exports.getLatestValues = (req, res) => {
+
+    HueModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
+
+        if (err) {
+            return res.status(404).json({ message: 'No data found', });
+        }
+
+        return res.json(value);
+
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
+};
+
+exports.getQueryValues = (req, res) => {
+
+    if (req.query.since) {
+
+        HueModel.find()
+            .gte('date', req.query.since)
+            .sort('date')
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            }).catch((err) => {
+            throw new Error(err.message);
+        });
+    }
 };
 
 let hueAutho = () => {

@@ -53,6 +53,6 @@ let UserSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = mongoose.model('Users', UserSchema, 'Users');
 module.exports.startUserDB = startUserDB;
 
