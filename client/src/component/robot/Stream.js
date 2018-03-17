@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '../../style/Robot.css';
+import Motor from './MotorComponent';
+import Servo from './ServoComponent';
 
 import ReactHLS from 'react-hls';
 import axios from "axios/index";
@@ -26,7 +28,10 @@ class Stream extends Component {
             <Router>
                 <div className="Stream">
 
-                   <ReactHLS url={serverConfig.url + '/streamFiles/livestream.m3u8'} autoplay={true}/>
+                   <ReactHLS url={serverConfig.url + '/streamFiles/livestream.m3u8'}
+                             autoplay={true}
+
+                   />
                 </div>
             </Router>
         );

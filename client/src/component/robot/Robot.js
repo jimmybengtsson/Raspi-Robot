@@ -5,17 +5,19 @@ import '../../style/Robot.css';
 import Motor from './MotorComponent';
 import Servo from './ServoComponent';
 import Stream from './Stream';
+import Led from './LedComponent';
 
 class Robot extends Component {
     render() {
         return (
             <Router>
                 <div className="Robot">
-                    <p>Robot</p>
-
                     <Stream/>
-                    <Motor/>
-                    <Servo/>
+                    <Led/>
+                    <div className="Controller">
+                        <Motor/>
+                        <Servo/>
+                    </div>
 
                 </div>
             </Router>

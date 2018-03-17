@@ -8,8 +8,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #0090b5;
+  height: 10%;
   padding: 20px;
   color: white;
 }
@@ -22,6 +22,17 @@
   font-size: large;
 }
 
+.Body {
+  height: 90%;
+}
+
+.Menu {
+  overflow: hidden;
+}
+
+.bm-menu-wrap {
+  overflow-y: hidden !important;
+}
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
@@ -49,15 +60,17 @@
 
 /* General sidebar styles */
 .bm-menu {
-  background: #0671a9;
+  background: #0090b5;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
+  overflow-y: hidden !important;
 }
 
 /* Wrapper for item list */
 .bm-item-list {
   color: #b8b7ad;
   padding: 0.8em;
+  overflow-y: hidden !important;
 }
 
 /* Styling of overlay */

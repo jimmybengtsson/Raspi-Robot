@@ -1,7 +1,21 @@
+.Robot {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Led {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
 .Motor {
     height: 160px;
     width: 160px;
     position: relative;
+    margin: 50px;
+    margin-top: 20;
 
 }
 .Forward {
@@ -92,4 +106,17 @@
     left: 50%;
     margin-top: -20px;
     margin-left: -20px;
+}
+
+.Stream {
+    width: 100%;
+
+}
+
+.Controller {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+
 }
