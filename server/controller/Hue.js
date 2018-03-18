@@ -27,7 +27,7 @@ exports.readInterval = () => {
                 clientTemp.username = data.HueUser;
                 setInterval(() => {
                     fetchValues();
-                }, 60000);
+                }, 300000);
             }
         })
         .catch(err => {
@@ -88,10 +88,24 @@ exports.getQueryValues = (req, res) => {
 
                 return res.json(result);
 
-            }).catch((err) => {
-            throw new Error(err.message);
-        });
+            });
     }
+};
+
+exports.getAllValues = (req, res) => {
+
+    HueModel.find((err, value) => {
+
+        console.log('Get all DHT values');
+        if (err) {
+            return res.status(500).json({ message: 'Server failed. Please try again!' });
+        }
+
+        return res.json(value);
+
+    }).catch((err) => {
+        throw new Error(err.message);
+    });
 };
 
 let hueAutho = () => {
@@ -179,6 +193,9 @@ let fetchValues = () => {
             }
         })
         .then(() => {
+
+            newHueModel.date = new Date();
+
             newHueModel.save((err, value) => {
 
                 if (err) {
@@ -210,9 +227,73 @@ let blinkLight = () => {
                     setTimeout(() => {
                         light.alert = 'none';
                         client.lights.save(light);
-                    }, 5000)
+                    }, 5000);
 
                     return client.lights.save(light);
+                }
+            }
+        })
+        .catch(error => {
+            console.log(error.stack);
+        });
+};
+
+exports.lightOn = (req, res) => {
+
+    let client = new huejay.Client(clientTemp);
+    client.lights.getAll()
+        .then(lights => {
+            for (let light of lights) {
+
+
+                if (light.name === 'Kontoret') {
+
+                    light.on = true;
+
+                    client.lights.save(light);
+                    return res.json({ message: 'Hue light is on', });
+                }
+            }
+        })
+        .catch(error => {
+            console.log(error.stack);
+        });
+};
+
+exports.lightOff = (req, res) => {
+
+    let client = new huejay.Client(clientTemp);
+    client.lights.getAll()
+        .then(lights => {
+            for (let light of lights) {
+
+                if (light.name === 'Kontoret') {
+
+                    light.on = false;
+
+                    client.lights.save(light);
+                    return res.json({ message: 'Hue light is off', });
+                }
+            }
+        })
+        .catch(error => {
+            console.log(error.stack);
+        });
+};
+
+exports.getState = (req, res) => {
+
+    let client = new huejay.Client(clientTemp);
+    client.lights.getAll()
+        .then(lights => {
+            for (let light of lights) {
+
+                if (light.name === 'Kontoret') {
+                    if(light.on === false) {
+                        return res.json({ state: 'false', });
+                    }
+
+                    return res.json({ state: 'true', });
                 }
             }
         })

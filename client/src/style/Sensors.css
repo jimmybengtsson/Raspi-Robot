@@ -1,0 +1,45 @@
+.Chart-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.Chart {
+    width: 50%;
+}
+
+.Chart-inner {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.Chart-text {
+    display: flex;
+    flex-direction: row;
+}
+
+.Chart-inner-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.Chart-inner-table {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.Chart-text-since {
+    font-size: 90%;
+    color: #858585;
+    margin-top: -10px;
+}
+
+.Chart-text-value {
+    font-size: 110%;
+}

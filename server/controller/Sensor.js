@@ -23,6 +23,11 @@ exports.readInterval = () => {
             return;
         }
 
+        if (data.type === 'Temperature' && data.value > 35) {
+            console.log('DHT-value skipped because of fail when reading!');
+            return;
+        }
+
         let newSensors = new SensorModel(data);
 
         newSensors.save((err, value) => {
@@ -35,12 +40,12 @@ exports.readInterval = () => {
 
             return value;
         });
-    }, 60);
+    }, 300);
 };
 
 exports.getLatestTemperature = (req, res) => {
 
-    SensorModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
+    SensorModel.findOne({'type': 'Temperature'}, {}, { sort: { date: -1 } }, (err, value) => {
 
         if (err) {
             return res.status(404).json({ message: 'No data found', });
@@ -56,13 +61,12 @@ exports.getLatestTemperature = (req, res) => {
 
 exports.getLatestHumidity = (req, res) => {
 
-    SensorModel.findOne({}, {}, { sort: { date: -1 } }, (err, value) => {
+    SensorModel.findOne({'type': 'Humidity'}, {}, { sort: { date: -1 } }, (err, value) => {
 
         if (err) {
             return res.status(404).json({ message: 'No data found', });
         }
 
-        console.log(value);
         return res.json(value);
 
     }).catch((err) => {
@@ -72,7 +76,22 @@ exports.getLatestHumidity = (req, res) => {
 
 exports.getQueryValues = (req, res) => {
 
-    if (req.query.since) {
+    if (req.query.type && !req.query.since) {
+        SensorModel.find()
+            .sort('-date')
+            .select(req.query.type)
+            .limit(1)
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            });
+
+    } else if (!req.query.type && req.query.since) {
 
         SensorModel.find()
             .gte('date', req.query.since)
@@ -85,9 +104,23 @@ exports.getQueryValues = (req, res) => {
 
                 return res.json(result);
 
-            }).catch((err) => {
-            throw new Error(err.message);
-        });
+            });
+    } else if (req.query.type && req.query.since) {
+
+        SensorModel.find()
+            .gte('date', req.query.since)
+            .sort('date')
+            .select(req.query.type)
+            .select('date')
+            .exec((err, result) => {
+
+                if (err) {
+                    return res.status(404).json({ message: 'No data found', });
+                }
+
+                return res.json(result);
+
+            });
     }
 };
 
@@ -100,7 +133,6 @@ exports.getAllValues = (req, res) => {
             return res.status(500).json({ message: 'Server failed. Please try again!' });
         }
 
-        console.log(value);
         return res.json(value);
 
     }).catch((err) => {

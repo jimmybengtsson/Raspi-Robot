@@ -35,11 +35,11 @@ board.initialize();
 
 let actionRoutes = require('./routes/ActionRoutes');
 let socketRoutes = require('./routes/WebSocketRoutes');
-let resourceRoutes = require('./routes/ResourcesRoutes');
+let propertiesRoutes = require('./routes/PropertiesRoutes');
 
 actionRoutes(app);
 socketRoutes(app);
-resourceRoutes(app);
+propertiesRoutes(app);
 
 app.use('/streamFiles', express.static('./streamFiles'));
 

@@ -43,6 +43,12 @@ module.exports = (app) => {
     app.route('/actions/motor/right')
         .get(motor.right);
 
+    app.route('/actions/hue/on')
+        .get(hue.lightOn);
+
+    app.route('/actions/hue/off')
+        .get(hue.lightOff);
+
     app.route('/actions/hue/blink')
         .get(hue.notifications);
 
