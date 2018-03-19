@@ -8,18 +8,23 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
+    text-align: left;
+}
+
+.Led-title {
+    margin: 0 0 -1px 3px;
 }
 
 .Motor {
     height: 160px;
     width: 160px;
     position: relative;
-    margin: 50px;
-    margin-top: 20;
+    margin: 30px;
+    margin-top: 110px;
 
 }
 .Forward {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 60px;
     width: 40px;
     border-radius: 10px 10px 40px 40px;
@@ -32,7 +37,7 @@
 }
 
 .Reverse {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 60px;
     width: 40px;
     border-radius: 40px 40px 10px 10px;
@@ -45,7 +50,7 @@
 }
 
 .Left {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 40px;
     width: 60px;
     border-radius: 10px 40px 40px 10px;
@@ -58,7 +63,7 @@
 }
 
 .Right {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 40px;
     width: 60px;
     border-radius: 40px 10px 10px 40px;
@@ -71,7 +76,7 @@
 }
 
 .Camera-left {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 40px;
     width: 50px;
     border-radius: 10px 40px 40px 10px;
@@ -84,7 +89,7 @@
 }
 
 .Camera-right {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 40px;
     width: 50px;
     border-radius: 40px 10px 10px 40px;
@@ -97,7 +102,7 @@
 }
 
 .Camera-center {
-    background-color: #737373;
+    background-color: #009dc5;
     height: 40px;
     width: 40px;
     border-radius: 10px 10px 10px 10px;
@@ -110,6 +115,10 @@
 
 .Stream {
     width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 
 }
 

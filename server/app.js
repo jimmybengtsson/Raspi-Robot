@@ -36,10 +36,12 @@ board.initialize();
 let actionRoutes = require('./routes/ActionRoutes');
 let socketRoutes = require('./routes/WebSocketRoutes');
 let propertiesRoutes = require('./routes/PropertiesRoutes');
+let userRoutes = require('./routes/UserRoutes');
 
 actionRoutes(app);
 socketRoutes(app);
 propertiesRoutes(app);
+userRoutes(app);
 
 app.use('/streamFiles', express.static('./streamFiles'));
 

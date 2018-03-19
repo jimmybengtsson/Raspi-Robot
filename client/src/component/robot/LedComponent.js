@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import '../../style/Robot.css';
 import axios from "axios/index";
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 let serverConfig = require('../../config/Config').server;
 
@@ -14,13 +15,16 @@ class Led extends Component {
         this.state = {
             message: '',
         };
-
     }
 
     ledOn () {
 
         console.log('Led on');
-        axios.get(serverConfig.url + '/actions/led/on')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/led/on',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -32,7 +36,11 @@ class Led extends Component {
     ledOff () {
 
         console.log('Led off');
-        axios.get(serverConfig.url + '/actions/led/off')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/led/off',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -42,7 +50,11 @@ class Led extends Component {
     ledFlash () {
 
         console.log('Led flash');
-        axios.get(serverConfig.url + '/actions/led/blink')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/led/blink',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -53,7 +65,11 @@ class Led extends Component {
     hueOn () {
 
         console.log('Hue on');
-        axios.get(serverConfig.url + '/actions/hue/on')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/hue/on',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -65,7 +81,11 @@ class Led extends Component {
     hueOff () {
 
         console.log('Hue off');
-        axios.get(serverConfig.url + '/actions/hue/off')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/hue/off',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -75,7 +95,11 @@ class Led extends Component {
     hueFlash () {
 
         console.log('Hue flash');
-        axios.get(serverConfig.url + '/actions/hue/blink')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/hue/blink',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -87,39 +111,57 @@ class Led extends Component {
 
         console.log(serverConfig.url);
         return (
-            <Router>
                 <div className="Led">
-                    <p>Led:</p>
-                    <FlatButton
-                        label="On"
-                        onClick={() => this.ledOn()}
-                    />
-                    <FlatButton
-                        label="Off"
-                        onClick={() => this.ledOff()}
-                    />
-                    <FlatButton
-                        label="Flash"
-                        onClick={() => this.ledFlash()}
-                    />
-                    <p>Hue:</p>
-                    <FlatButton
-                        label="On"
-                        onClick={() => this.hueOn()}
-                    />
-                    <FlatButton
-                        label="Off"
-                        onClick={() => this.hueOff()}
-                    />
-                    <FlatButton
-                        label="Flash"
-                        onClick={() => this.hueFlash()}
-                    />
+                    <div className="Led-links">
+                        <p className="Led-title">Led:</p>
+                        <RaisedButton
+                            label="On"
+                            onClick={() => this.ledOn()}
+                            primary={true}
+                            style={style}
+                        />
+                        <RaisedButton
+                            label="Off"
+                            onClick={() => this.ledOff()}
+                            primary={true}
+                            style={style}
+                        />
+                        <RaisedButton
+                            label="Flash"
+                            onClick={() => this.ledFlash()}
+                            primary={true}
+                            style={style}
+                        />
+                    </div>
+                    <div className="Hue-links">
+                        <p className="Led-title">Hue:</p>
+                        <RaisedButton
+                            label="On"
+                            onClick={() => this.hueOn()}
+                            primary={true}
+                            style={style}
+                        />
+                        <RaisedButton
+                            label="Off"
+                            onClick={() => this.hueOff()}
+                            primary={true}
+                            style={style}
+                        />
+                        <RaisedButton
+                            label="Flash"
+                            onClick={() => this.hueFlash()}
+                            primary={true}
+                            style={style}
+                        />
+                    </div>
 
                 </div>
-            </Router>
         );
     }
 }
 
 export default Led;
+
+const style = {
+    margin: 2,
+};

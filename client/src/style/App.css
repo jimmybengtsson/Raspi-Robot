@@ -26,6 +26,13 @@
   height: 90%;
 }
 
+.Logout-button {
+  float: right;
+  position: absolute;
+  top: 28px;
+  right: 15px;
+}
+
 .Menu {
   overflow: hidden;
 }

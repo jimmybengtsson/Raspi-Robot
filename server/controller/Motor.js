@@ -3,6 +3,8 @@
 let raspi = require('raspi-io');
 let five = require('johnny-five');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 let motorLeft;
 let motorRight;
 
@@ -25,8 +27,14 @@ exports.left = (req, res) => {
 
     motorLeft.reverse(255);
     motorRight.forward(255);
-    return res.json({
-        message: 'Motor left'
+
+    let message = 'Motor left';
+
+    getHateOasLinks(message, 'action', 'actionMotorLeft').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -35,8 +43,14 @@ exports.right = (req, res) => {
 
     motorLeft.forward(255);
     motorRight.reverse(255);
-    return res.json({
-        message: 'Motor right'
+
+    let message = 'Motor right';
+
+    getHateOasLinks(message, 'action', 'actionMotorRight').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -45,8 +59,14 @@ exports.forward = (req, res) => {
 
     motorLeft.forward(255);
     motorRight.forward(255);
-    return res.json({
-        message: 'Motor forward'
+
+    let message = 'Motor forward';
+
+    getHateOasLinks(message, 'action', 'actionMotorForward').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -55,8 +75,14 @@ exports.reverse = (req, res) => {
 
     motorLeft.reverse(255);
     motorRight.reverse(255);
-    return res.json({
-        message: 'Motor reverse'
+
+    let message = 'Motor reverse';
+
+    getHateOasLinks(message, 'action', 'actionMotorReverse').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -65,8 +91,14 @@ exports.stop = (req, res) => {
 
     motorLeft.stop();
     motorRight.stop();
-    return res.json({
-        message: 'Motor stop',
+
+    let message = 'Motor stop';
+
+    getHateOasLinks(message, 'action', 'actionMotorStop').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 };
 

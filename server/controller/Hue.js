@@ -7,6 +7,8 @@ let Hue = require('philips-hue');
 let hue = new Hue();
 let fs = require('fs-extra');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 hue.devicetype = 'my-hue-app';
 
 let clientTemp = {
@@ -49,8 +51,13 @@ exports.notifications = (req, res) => {
             }
         })
         .then(() => {
-            return res.json({
-                message: 'Hue light blink'
+            let message = 'Hue flash';
+
+            getHateOasLinks(message, 'action', 'actionHueBlink').then((response) => {
+
+                return res.json(response);
+            }).catch((err) => {
+                throw new Error(err);
             });
         })
         .catch(err => {
@@ -66,7 +73,12 @@ exports.getLatestValues = (req, res) => {
             return res.status(404).json({ message: 'No data found', });
         }
 
-        return res.json(value);
+        getHateOasLinks(value, 'properties', 'propertiesHueLatest').then((response) => {
+
+            return res.json(response);
+        }).catch((err) => {
+            throw new Error(err);
+        });
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -251,7 +263,15 @@ exports.lightOn = (req, res) => {
                     light.on = true;
 
                     client.lights.save(light);
-                    return res.json({ message: 'Hue light is on', });
+
+                    let message = 'Hue on';
+
+                    getHateOasLinks(message, 'action', 'actionHueOn').then((response) => {
+
+                        return res.json(response);
+                    }).catch((err) => {
+                        throw new Error(err);
+                    });
                 }
             }
         })
@@ -272,7 +292,14 @@ exports.lightOff = (req, res) => {
                     light.on = false;
 
                     client.lights.save(light);
-                    return res.json({ message: 'Hue light is off', });
+                    let message = 'Hue off';
+
+                    getHateOasLinks(message, 'action', 'actionHueOff').then((response) => {
+
+                        return res.json(response);
+                    }).catch((err) => {
+                        throw new Error(err);
+                    });
                 }
             }
         })
@@ -290,10 +317,24 @@ exports.getState = (req, res) => {
 
                 if (light.name === 'Kontoret') {
                     if(light.on === false) {
-                        return res.json({ state: 'false', });
-                    }
+                        let state = 'false';
 
-                    return res.json({ state: 'true', });
+                        getHateOasLinks(state, 'properties', 'propertiesHueState').then((response) => {
+
+                            return res.json(response);
+                        }).catch((err) => {
+                            throw new Error(err);
+                        });
+                    } else {
+                        let state = 'true';
+
+                        getHateOasLinks(state, 'properties', 'propertiesHueState').then((response) => {
+
+                            return res.json(response);
+                        }).catch((err) => {
+                            throw new Error(err);
+                        });
+                    }
                 }
             }
         })

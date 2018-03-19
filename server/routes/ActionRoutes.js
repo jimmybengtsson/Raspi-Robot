@@ -10,47 +10,49 @@ let hue = require('../controller/Hue');
 
 module.exports = (app) => {
 
+    let verifyWebToken = require('../controller/JWTAuthorization');
+
     app.route('/actions/led/on')
-        .get(led.ledOn);
+        .get(verifyWebToken, led.ledOn);
 
     app.route('/actions/led/off')
-        .get(led.ledOff);
+        .get(verifyWebToken, led.ledOff);
 
     app.route('/actions/led/blink')
-        .get(led.ledBlink);
+        .get(verifyWebToken, led.ledBlink);
 
     app.route('/actions/camera/left')
-        .get(cameraServo.left);
+        .get(verifyWebToken, cameraServo.left);
 
     app.route('/actions/camera/right')
-        .get(cameraServo.right);
+        .get(verifyWebToken, cameraServo.right);
 
     app.route('/actions/camera/center')
-        .get(cameraServo.center);
+        .get(verifyWebToken, cameraServo.center);
 
     app.route('/actions/motor/forward')
-        .get(motor.forward);
+        .get(verifyWebToken, motor.forward);
 
     app.route('/actions/motor/reverse')
-        .get(motor.reverse);
+        .get(verifyWebToken, motor.reverse);
 
     app.route('/actions/motor/stop')
-        .get(motor.stop);
+        .get(verifyWebToken, motor.stop);
 
     app.route('/actions/motor/left')
-        .get(motor.left);
+        .get(verifyWebToken, motor.left);
 
     app.route('/actions/motor/right')
-        .get(motor.right);
+        .get(verifyWebToken, motor.right);
 
     app.route('/actions/hue/on')
-        .get(hue.lightOn);
+        .get(verifyWebToken, hue.lightOn);
 
     app.route('/actions/hue/off')
-        .get(hue.lightOff);
+        .get(verifyWebToken, hue.lightOff);
 
     app.route('/actions/hue/blink')
-        .get(hue.notifications);
+        .get(verifyWebToken, hue.notifications);
 
 
 };

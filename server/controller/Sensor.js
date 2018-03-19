@@ -4,6 +4,8 @@ let RaspiSensors = require('raspi-sensors');
 let mongoose = require('mongoose');
 let SensorModel = mongoose.model('Sensors');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 let DHT21 = new RaspiSensors.Sensor({
     type: 'DHT22',
     pin: 0X7
@@ -51,8 +53,10 @@ exports.getLatestTemperature = (req, res) => {
             return res.status(404).json({ message: 'No data found', });
         }
 
-        console.log(value);
-        return res.json(value);
+        getHateOasLinks(value, 'properties', 'propertiesTemperatureLatest').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -67,7 +71,10 @@ exports.getLatestHumidity = (req, res) => {
             return res.status(404).json({ message: 'No data found', });
         }
 
-        return res.json(value);
+        getHateOasLinks(value, 'properties', 'propertiesHumidityLatest').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -133,7 +140,10 @@ exports.getAllValues = (req, res) => {
             return res.status(500).json({ message: 'Server failed. Please try again!' });
         }
 
-        return res.json(value);
+        getHateOasLinks(value, 'properties', 'propertiesSensorAll').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);

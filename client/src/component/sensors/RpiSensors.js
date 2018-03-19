@@ -7,6 +7,7 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
 import Charts from './Charts';
+import Auth from '../auth/Auth';
 let serverConfig = require('../../config/Config').server;
 let moment = require('moment');
 
@@ -24,12 +25,21 @@ class RpiSensors extends Component {
 
             isLoaded: false,
         };
+
+        this.changeLoginState = this.changeLoginState.bind(this);
     }
 
-    fetchValues () {
+    changeLoginState() {
+        this.props.changeLoginState();
+
+    }
+
+    fetchValues (token) {
 
         tempArray = [];
         humArray = [];
+
+        console.log(this.props.state);
 
         let day = 1000 * 60 * 60 * 24;
         let d = Date.now() - day;
@@ -39,10 +49,14 @@ class RpiSensors extends Component {
 
         let urlQueary = serverConfig.url + '/properties/sensor/search' + '?since=' + newD;
 
-        return axios.get(urlQueary)
+        return axios({
+            method: 'get',
+            url: urlQueary,
+            headers: {'x-access-token': token}
+        })
                 .then((response) => {
 
-                    let res = response.data;
+                    let res = response.data.data;
 
                     let data = res.filter((element, index) => {
                         return index % 3 === 0;
@@ -85,13 +99,21 @@ class RpiSensors extends Component {
         latestTemp = {};
         latestHum = {};
 
-        return axios.get(serverConfig.url + '/properties/temperature/latest')
+        return axios({
+            method: 'get',
+            url: serverConfig.url + '/properties/temperature/latest',
+            headers: {'x-access-token': this.props.state.token}
+        })
                 .then((response) => {
                     latestTemp = response.data;
                 })
             .then(() => {
 
-                axios.get(serverConfig.url + '/properties/humidity/latest')
+                axios({
+                    method: 'get',
+                    url: serverConfig.url + '/properties/humidity/latest',
+                    headers: {'x-access-token': this.props.state.token}
+                })
                     .then((response) => {
                         latestHum = response.data;
                     })
@@ -110,40 +132,50 @@ class RpiSensors extends Component {
 
     componentDidMount() {
 
-        this.fetchValues();
+        this.fetchValues(this.props.state.token);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.fetchValues(nextProps.state.token);
     }
 
     render() {
+
+        const isLoggedIn = this.props.state.signedIn;
+
         return (
-            <Router>
                 <div className="RpiSensors">
-                    {this.state.isLoaded ? (
-                        <div className="Chart-body">
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={tempArray} type={'Temperature'}/>
-                                    <div className="Chart-inner-text">
-                                        <p className="Chart-text-value">{'Latest: ' + latestTemp.value.toFixed(1) + latestTemp.unit_display}</p>
-                                        <p className="Chart-text-since">{'Updated ' + moment(latestTemp.date).fromNow()}</p>
+                    {isLoggedIn ?  (
+                        <div>
+                        {this.state.isLoaded ? (
+                            <div className="Chart-body">
+                                <div className="Chart">
+                                    <div className="Chart-inner">
+                                        <Charts data={tempArray} type={'Temperature'}/>
+                                        <div className="Chart-inner-text">
+                                            <p className="Chart-text-value">{'Latest: ' + latestTemp.value.toFixed(1) + latestTemp.unit_display}</p>
+                                            <p className="Chart-text-since">{'Updated ' + moment(latestTemp.date).fromNow()}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="Chart">
+                                    <div className="Chart-inner">
+                                        <Charts data={humArray} type={'Humidity'}/>
+                                        <div className="Chart-inner-text">
+                                            <p className="Chart-text-value">{'Latest: ' + latestHum.value.toFixed(1) + latestHum.unit_display}</p>
+                                            <p className="Chart-text-since">{'Updated ' + moment(latestHum.date).fromNow()}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={humArray} type={'Humidity'}/>
-                                    <div className="Chart-inner-text">
-                                        <p className="Chart-text-value">{'Latest: ' + latestHum.value.toFixed(1) + latestHum.unit_display}</p>
-                                        <p className="Chart-text-since">{'Updated ' + moment(latestHum.date).fromNow()}</p>
-                                    </div>
-                                </div>
-                            </div>
+                        ) : (
+                            <CircularProgress style={style.spinner}/>
+                        )}
                         </div>
                     ) : (
-                        <CircularProgress style={style.spinner}/>
+                        <Auth changeLoginState={this.changeLoginState}/>
                     )}
-
                 </div>
-            </Router>
         );
     }
 }

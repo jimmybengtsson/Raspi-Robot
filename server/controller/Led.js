@@ -3,6 +3,8 @@
 let raspi = require('raspi-io');
 let five = require('johnny-five');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 let leds;
 
 // Handling all the led actions
@@ -15,8 +17,13 @@ exports.ledOn = (req, res) => {
             }
 
         });
-    return res.json({
-        message: 'Led on'
+    let message = 'Led on';
+
+    getHateOasLinks(message, 'action', 'actionLedOn').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 };
 
@@ -27,8 +34,13 @@ exports.ledOff = (req, res) => {
             return err;
         }
     });
-    return res.json({
-        message: 'Led off'
+    let message = 'Led off';
+
+    getHateOasLinks(message, 'action', 'actionLedOff').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -39,7 +51,14 @@ exports.ledBlink = (req, res) => {
 
     blink();
 
-    return res.json({message: 'Led blinking'});
+    let message = 'Led flash';
+
+    getHateOasLinks(message, 'action', 'actionLedBlink').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
+    });
 
 };
 

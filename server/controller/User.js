@@ -5,6 +5,8 @@ let Users = mongoose.model('Users');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 // Handling all events from UserRoutes
 
 exports.getAllUsers = (req, res) => {
@@ -21,7 +23,10 @@ exports.getAllUsers = (req, res) => {
         });
 
 
-        return res.json(value);
+        getHateOasLinks(value, 'user', 'getAllUsers').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -46,7 +51,10 @@ exports.getSingleUser = (req, res) => {
 
         user.hashedPassword = 0;
 
-        return res.json(user);
+        getHateOasLinks(user, 'user', 'getUser').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -70,7 +78,10 @@ exports.deleteUser = (req, res) => {
 
         let message = req.body.userName + ' was deleted.';
 
-        return res.json(message);
+        getHateOasLinks(message, 'user', 'deleteUser').then((response) => {
+
+            return res.json(response);
+        });
 
     }).catch((err) => {
         throw new Error(err.message);
@@ -94,7 +105,10 @@ exports.updateUser = (req, res) => {
 
         let message = req.body.userName + ' was updated.';
 
-        return res.json(message);
+        getHateOasLinks(message, 'user', 'updateUser').then((response) => {
+
+            return res.json(response);
+        }).catch(err);
 
     }).catch((err) => {
         throw new Error(err.message);

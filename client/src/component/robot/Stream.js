@@ -25,15 +25,11 @@ class Stream extends Component {
 
     console.log(serverConfig.url + '/streamFiles/livestream.m3u8');
         return (
-            <Router>
-                <div className="Stream">
 
                    <ReactHLS url={serverConfig.url + '/streamFiles/livestream.m3u8'}
                              autoplay={true}
 
                    />
-                </div>
-            </Router>
         );
     }
 }

@@ -3,6 +3,8 @@
 let raspi = require('raspi-io');
 let five = require('johnny-five');
 
+let getHateOasLinks = require('../model/HateOas').getHateOasLinks;
+
 let horisontalServo;
 
 exports.initialize = (board) => {
@@ -28,8 +30,14 @@ exports.initialize = (board) => {
 exports.left = (req, res) => {
 
     horisontalServo.min();
-    return res.json({
-        message: 'Camera left'
+
+    let message = 'Camera left';
+
+    getHateOasLinks(message, 'action', 'actionCameraLeft').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -37,8 +45,14 @@ exports.left = (req, res) => {
 exports.right = (req, res) => {
 
     horisontalServo.max();
-    return res.json({
-        message: 'Camera right'
+
+    let message = 'Camera right';
+
+    getHateOasLinks(message, 'action', 'actionCameraRight').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };
@@ -46,8 +60,14 @@ exports.right = (req, res) => {
 exports.center = (req, res) => {
 
     horisontalServo.center();
-    return res.json({
-        message: 'Camera center'
+
+    let message = 'Camera center';
+
+    getHateOasLinks(message, 'action', 'actionCameraCenter').then((response) => {
+
+        return res.json(response);
+    }).catch((err) => {
+        throw new Error(err);
     });
 
 };

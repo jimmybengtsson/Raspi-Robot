@@ -19,7 +19,11 @@ class Motor extends Component {
     motorForward () {
 
         console.log('Motor forward');
-        axios.get(serverConfig.url + '/actions/motor/forward')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/motor/forward',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
             console.log(response);
@@ -30,7 +34,11 @@ class Motor extends Component {
     motorReverse () {
 
         console.log('Motor reverse');
-        axios.get(serverConfig.url + '/actions/motor/reverse')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/motor/reverse',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -41,7 +49,11 @@ class Motor extends Component {
     motorLeft () {
 
         console.log('Motor left');
-        axios.get(serverConfig.url + '/actions/motor/left')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/motor/left',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -53,7 +65,11 @@ class Motor extends Component {
     motorRight () {
 
         console.log('Motor right');
-        axios.get(serverConfig.url + '/actions/motor/right')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/motor/right',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -63,7 +79,11 @@ class Motor extends Component {
     motorStop () {
 
         console.log('Motor stop');
-        axios.get(serverConfig.url + '/actions/motor/stop')
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/motor/stop',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
             console.log(response);

@@ -1,5 +1,8 @@
 'use strict';
 
+let hateOas = require('../model/HateOas').hateOasObj;
+let info = require('../data/Info');
+
 // Handling all routes for users
 
 module.exports = (app) => {
@@ -7,14 +10,10 @@ module.exports = (app) => {
     let users = require('../controller/User');
     let verifyWebToken = require('../controller/JWTAuthorization');
 
-    // ToDo add hateoas links
-    app.route('/info')
+    app.route('/model')
         .get((req, res) => {
-            res.json({message: 'ToDo'});
+            res.json({data: info, links: hateOas});
         });
-
-    app.route('/user/all')
-        .get(users.getAllUsers);
 
     app.route('/user')
         .get(verifyWebToken, users.getSingleUser)

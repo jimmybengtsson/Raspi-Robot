@@ -7,6 +7,7 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
 import Charts from './Charts';
+import Auth from '../auth/Auth';
 let serverConfig = require('../../config/Config').server;
 let moment = require('moment');
 
@@ -30,6 +31,12 @@ class HueSensors extends Component {
 
             isLoaded: false,
         };
+        this.changeLoginState = this.changeLoginState.bind(this);
+    }
+
+    changeLoginState() {
+        this.props.changeLoginState();
+
     }
 
     fetchValues () {
@@ -47,10 +54,14 @@ class HueSensors extends Component {
 
         let urlQueary = serverConfig.url + '/properties/hue/search' + '?since=' + newD;
 
-        return axios.get(urlQueary)
+        return axios({
+            method: 'get',
+            url: urlQueary,
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
-                let res = response.data;
+                let res = response.data.data;
 
                 console.log(res);
                 let data = res.filter((element, index) => {
@@ -88,10 +99,6 @@ class HueSensors extends Component {
 
             }).then(() => {
                 this.fetchLatest();
-                console.log(kitchenArray);
-                console.log(hallwayArray);
-                console.log(basementArray);
-                console.log(laundryArray);
             });
 
         function addZero(i) {
@@ -110,7 +117,11 @@ class HueSensors extends Component {
         latestLaundry = {};
         latestDate = '';
 
-        return axios.get(serverConfig.url + '/properties/hue/latest')
+        return axios({
+            method: 'get',
+            url: serverConfig.url + '/properties/hue/latest',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 latestDate = response.data.date;
@@ -118,10 +129,6 @@ class HueSensors extends Component {
                 latestHallway = response.data.Hallway;
                 latestBasement = response.data.Basement;
                 latestLaundry = response.data.Laundry;
-                console.log(latestKitchen);
-                console.log(latestHallway);
-                console.log(latestBasement);
-                console.log(latestLaundry);
             })
             .then(() => {
                 this.setState({
@@ -139,74 +146,81 @@ class HueSensors extends Component {
     }
 
     render() {
+
+        const isLoggedIn = this.props.state.signedIn;
+
         return (
-            <Router>
                 <div className="HueSensors">
-                    {this.state.isLoaded ? (
-                        <div className="Chart-body">
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={kitchenArray} type={'Kitchen'}/>
-                                    <div className="Chart-text">
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Latest temperature: ' + latestKitchen.temperature.toFixed(1) + '°C'}</p>
-                                            <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
+                    {isLoggedIn ?  (
+                        <div>
+                            {this.state.isLoaded ? (
+                                <div className="Chart-body">
+                                    <div className="Chart">
+                                        <div className="Chart-inner">
+                                            <Charts data={kitchenArray} type={'Kitchen'}/>
+                                            <div className="Chart-text">
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Latest temperature: ' + latestKitchen.temperature.toFixed(1) + '°C'}</p>
+                                                    <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
+                                                </div>
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Last movement: ' + moment(latestKitchen.lastMovement).fromNow()}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Last movement: ' + moment(latestKitchen.lastMovement).fromNow()}</p>
+                                    </div>
+                                    <div className="Chart">
+                                        <div className="Chart-inner">
+                                            <Charts data={hallwayArray} type={'Hallway'}/>
+                                            <div className="Chart-text">
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Latest temperature: ' + latestHallway.temperature.toFixed(1) + '°C'}</p>
+                                                    <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
+                                                </div>
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Last movement: ' + moment(latestHallway.lastMovement).fromNow()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="Chart">
+                                        <div className="Chart-inner">
+                                            <Charts data={basementArray} type={'Basement'}/>
+                                            <div className="Chart-text">
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Latest temperature: ' + latestBasement.temperature.toFixed(1) + '°C'}</p>
+                                                    <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
+                                                </div>
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Last movement: ' + moment(latestBasement.lastMovement).fromNow()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="Chart">
+                                        <div className="Chart-inner">
+                                            <Charts data={laundryArray} type={'Laundry'}/>
+                                            <div className="Chart-text">
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Latest temperature: ' + latestLaundry.temperature.toFixed(1) + '°C'}</p>
+                                                    <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
+                                                </div>
+                                                <div className="Chart-inner-text">
+                                                    <p className="Chart-text-value">{'Last movement: ' + moment(latestLaundry.lastMovement).fromNow()}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={hallwayArray} type={'Hallway'}/>
-                                    <div className="Chart-text">
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Latest temperature: ' + latestHallway.temperature.toFixed(1) + '°C'}</p>
-                                            <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
-                                        </div>
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Last movement: ' + moment(latestHallway.lastMovement).fromNow()}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={basementArray} type={'Basement'}/>
-                                    <div className="Chart-text">
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Latest temperature: ' + latestBasement.temperature.toFixed(1) + '°C'}</p>
-                                            <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
-                                        </div>
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Last movement: ' + moment(latestBasement.lastMovement).fromNow()}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="Chart">
-                                <div className="Chart-inner">
-                                    <Charts data={laundryArray} type={'Laundry'}/>
-                                    <div className="Chart-text">
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Latest temperature: ' + latestLaundry.temperature.toFixed(1) + '°C'}</p>
-                                            <p className="Chart-text-since">{'Updated ' + moment(latestDate).fromNow()}</p>
-                                        </div>
-                                        <div className="Chart-inner-text">
-                                            <p className="Chart-text-value">{'Last movement: ' + moment(latestLaundry.lastMovement).fromNow()}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            ) : (
+                                <CircularProgress style={style.spinner}/>
+                            )}
                         </div>
                     ) : (
-                        <CircularProgress style={style.spinner}/>
+                        <Auth changeLoginState={this.changeLoginState}/>
                     )}
 
                 </div>
-            </Router>
         );
     }
 }

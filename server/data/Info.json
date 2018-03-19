@@ -1,0 +1,170 @@
+{
+  "id": "http://localhost:8000",
+  "name": "Raspberry Pi sensors and robot",
+  "description": "A small robot built with a Raspberry Pi.",
+  "tags": [
+    "raspberry",
+    "pi",
+    "WoT"
+  ],
+  "customFields": {
+    "hostname":"localhost",
+    "port": 8000
+  },
+  "links": {
+    "product": {
+      "link": ["https://www.raspberrypi.org/products/raspberry-pi-3-model-b/", "https://www.dfrobot.com/product-1477.html"],
+      "title": "Products this Web Thing is based on"
+    },
+    "properties": {
+      "title": "List of Properties",
+      "resources": {
+        "temperature": {
+          "name": "Temperature Sensor",
+          "description": "A DHT21-sensor.",
+          "values": {
+            "t": {
+              "name": "Temperature sensor",
+              "description": "The temperature in celsius",
+              "unit": "celsius",
+              "customFields": {
+                "gpio": 4
+              }
+            }
+          },
+          "tags": [
+            "sensor",
+            "indoors"
+          ]
+        },
+        "humidity": {
+          "name": "Humidity Sensor",
+          "description": "A DHT21-sensor.",
+          "values": {
+            "h": {
+              "name": "Humidity",
+              "description": "Percentage of Humidity",
+              "unit": "%",
+              "customFields": {
+                "gpio": 4
+              }
+            }
+          },
+          "tags": [
+            "sensor",
+            "indoors"
+          ]
+        },
+
+        "hue": {
+          "name": "Hue Sensors",
+          "description": "Temperature readings for connected Hue sensors",
+          "tags": [
+            "sensor",
+            "indoors",
+            "hue"
+          ]
+        },
+
+        "leds": {
+          "name": "LEDs",
+          "description": "The LEDs of this device.",
+          "values": {
+            "1": {
+              "name": "LED 1",
+              "customFields": {
+                "gpio": 20
+              }
+            },
+            "2": {
+              "name": "LED 2",
+              "customFields": {
+                "gpio": 21
+              }
+            }
+          },
+          "tags": [
+            "led"
+          ]
+        },
+        "motors": {
+          "name": "MOTORSs",
+          "description": "The motors of this device.",
+          "values": {
+            "1": {
+              "name": "MOTOR 1",
+              "customFields": {
+                "pwm": 23,
+                "direction": 22
+              }
+            },
+            "2": {
+              "name": "MOTOR 2",
+              "customFields": {
+                "pwm": 1,
+                "direction": 4
+              }
+            }
+          },
+          "tags": [
+            "motor"
+          ]
+        },
+        "servo": {
+          "name": "Servo",
+          "description": "Servo for camera. Left, right or center",
+          "tags": [
+            "servo"
+          ],
+          "values": {
+            "1": {
+              "name": "SERVO",
+              "customFields": {
+                "gpio": 25
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "title": "Actions of this Web Thing",
+      "resources": {
+        "ledState": {
+          "name": "Change LED state",
+          "description": "Change the state of an LED",
+            "state": {
+              "type": "boolean"
+            }
+          },
+        "motor": {
+          "name": "Control the motor",
+          "description": "Control the motors by left, right, forward, reverse and stop",
+          "state": {
+            "type": "boolean"
+          }
+        },
+        "servo": {
+          "name": "Control the camera servo",
+          "description": "Control the servo by left, right and center",
+          "state": {
+            "type": "boolean"
+          }
+        }
+        }
+      },
+    "things": {
+      "title": "Things of this Web Thing",
+      "resources": {
+        "camera": {
+          "name": "Camera live stream",
+          "description": "A Raspberry Pi v2 camera"
+        }
+      }
+    }
+    },
+    "websocket": {
+      "link": "/",
+      "title": "Start websocket"
+    }
+  }

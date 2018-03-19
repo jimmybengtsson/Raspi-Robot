@@ -10,6 +10,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import FlatButton from 'material-ui/FlatButton';
 import {cyan500, grey800, grey400} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
 
 import Robot from './component/robot/Robot';
 import RpiSensors from './component/sensors/RpiSensors';
@@ -24,9 +26,26 @@ class App extends Component {
 
         this.state = {
             menuOpen: false,
-            signedIn: true,
+            signedIn: false,
+            disableLogout: true,
         };
-        //this.isSignedIn = this.isSignedIn.bind(this);
+        this.changeLoginState = this.changeLoginState.bind(this);
+        this.signOut = this.signOut.bind(this);
+    }
+
+    changeLoginState() {
+        this.setState({
+            signedIn: true,
+            disableLogout: false,
+        })
+    }
+
+    signOut() {
+        this.setState({
+            signedIn: false,
+            disableLogout: true,
+        });
+        localStorage.removeItem('token');
     }
 
     handleStateChange (state) {
@@ -44,6 +63,37 @@ class App extends Component {
     handleData(data) {
         let result = JSON.parse(data);
         console.log(result);
+    }
+
+    // Check authentication and fetch data before mount.
+    componentWillMount() {
+
+        if(localStorage.getItem('token')) {
+
+            let token = JSON.parse(localStorage.getItem('userData'));
+
+            this.setState({
+                token: token,
+                signedIn: true,
+                disableLogout: false,
+            });
+        }
+
+    }
+
+    componentWillUpdate() {
+
+        if(localStorage.getItem('token')) {
+
+            let token = JSON.parse(localStorage.getItem('userData'));
+
+            this.setState({
+                token: token,
+                signedIn: true,
+                disableLogout: false,
+            });
+        }
+
     }
 
   render() {
@@ -83,12 +133,17 @@ class App extends Component {
                   </Menu>
                 <header className="App-header">
                   <h1 className="App-title">RPi Robot</h1>
+                    <div className="Logout-button">
+                        <IconButton onClick={this.signOut} disabled={this.state.disableLogout}>
+                            <FontIcon className="material-icons" style={iconStyles} color={'#fff'}>cancel</FontIcon>
+                        </IconButton>
+                    </div>
                 </header>
 
                   <div className="Body">
-                      <Route path="/robot" component={Robot}/>
-                      <Route path="/" exact={true} component={RpiSensors}/>
-                      <Route path="/sensors/hue" component={HueSensors}/>
+                      <Route path="/robot" component={() => <Robot state={this.state} changeLoginState={this.changeLoginState}/>}/>
+                      <Route path="/" exact={true} component={() => <RpiSensors state={this.state} changeLoginState={this.changeLoginState}/>}/>
+                      <Route path="/sensors/hue" component={() => <HueSensors state={this.state} changeLoginState={this.changeLoginState}/>}/>
 
                   </div>
                   <WebSocket url={serverConfig.wsUrl}
@@ -149,4 +204,8 @@ const style = {
         marginBottom: 5,
     }
 
+};
+
+const iconStyles = {
+    backgroundColor: '#fff',
 };

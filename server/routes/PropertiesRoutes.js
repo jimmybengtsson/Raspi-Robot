@@ -10,27 +10,27 @@ module.exports = (app) => {
     let verifyWebToken = require('../controller/JWTAuthorization');
 
     app.route('/properties/temperature/latest')
-        .get(sensor.getLatestTemperature);
+        .get(verifyWebToken, sensor.getLatestTemperature);
 
     app.route('/properties/humidity/latest')
-        .get(sensor.getLatestHumidity);
+        .get(verifyWebToken, sensor.getLatestHumidity);
 
     app.route('/properties/sensor/search')
-        .get(sensor.getQueryValues);
+        .get(verifyWebToken, sensor.getQueryValues);
 
-    app.route('/properties/dht/all')
-        .get(sensor.getAllValues);
+    app.route('/properties/sensor/all')
+        .get(verifyWebToken, sensor.getAllValues);
 
     app.route('/properties/hue/latest')
-        .get(hue.getLatestValues);
+        .get(verifyWebToken, hue.getLatestValues);
 
     app.route('/properties/hue/search')
-        .get(hue.getQueryValues);
+        .get(verifyWebToken, hue.getQueryValues);
 
     app.route('/properties/hue/all')
-        .get(hue.getAllValues);
+        .get(verifyWebToken, hue.getAllValues);
 
     app.route('/properties/hue/state')
-        .get(hue.getState);
+        .get(verifyWebToken, hue.getState);
 
 };

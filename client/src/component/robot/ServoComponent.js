@@ -18,8 +18,12 @@ class Servo extends Component {
 
     servoLeft () {
 
-        console.log('Motor left');
-        axios.get(serverConfig.url + '/actions/camera/left')
+        console.log('Camera left');
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/camera/left',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -30,8 +34,12 @@ class Servo extends Component {
 
     servoRight () {
 
-        console.log('Motor right');
-        axios.get(serverConfig.url + '/actions/camera/right')
+        console.log('Camera right');
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/camera/right',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
@@ -40,8 +48,12 @@ class Servo extends Component {
 
     servoCenter () {
 
-        console.log('Motor stop');
-        axios.get(serverConfig.url + '/actions/camera/center')
+        console.log('Camera center');
+        axios({
+            method: 'get',
+            url: serverConfig.url + '/actions/camera/center',
+            headers: {'x-access-token': this.props.state.token}
+        })
             .then((response) => {
 
                 console.log(response);
