@@ -8,6 +8,9 @@
 
 [Client](http://109.228.145.167:5000)
 
+**Username:** Username1
+**Password:** Password1
+
 I have built a small robot based on a platform called [Devastator](https://www.dfrobot.com/product-1477.html).
 The robot has a DHT21-sensor that measure temperature and humidity. It is also connected to a Hue-bridge so it can measure temperature from Hue-sensors and also controll the light in my office.
 You can control the robots motors, camera-servo and leds through http-requests. The robot also has a camera whick streams in HLS processed by FFMPEG.
