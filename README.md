@@ -105,21 +105,10 @@ GET /properties/hue/state
 ```
 State of Hue-light
 
-
-
-
-
 ```
 GET, PUT & DELETE /user
 ```
 Get/update users info or delete the user.
-
-**Required:** `x-access-token` has to be included in header
-
-```
-GET /user/assets
-```
-Get users all crypto-currency assets.
 
 **Required:** `x-access-token` has to be included in header
 
